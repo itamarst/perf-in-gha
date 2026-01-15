@@ -29,6 +29,7 @@ jobs:
         uv pip install py-perf-event
     - name: Run tests
       run: |
+        sudo apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
         sudo sh -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
         perf stat python benchmark.py
         env PYTHONHASHSEED=1 setarch `uname -m` -R .venv/bin/python benchmark.py
