@@ -20,9 +20,13 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Install uv
+        uses: astral-sh/setup-uv@v7
     - name: Install dependencies
       run: |
-        pip install py-perf-event
+        uv venv --python=3.14
+        . .venv/bin/activate
+        uv pip install py-perf-event
     - name: Run tests
       run: |
-        sudo env PYTHONHASHSEED=1 setarch `uname -m` -R python benchmark.py
+        sudo env PYTHONHASHSEED=1 setarch `uname -m` -R .venv/bin/python benchmark.py
